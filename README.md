@@ -8,7 +8,9 @@ https://github.com/LIMUNIMI/MMSP2021-Audio2ScoreAlignment
 
 https://github.com/DamRsn/NeuralNote
 
-the last one seems promising
+https://basicpitch.spotify.com/
+
+the last 2 seems promising, they are the same project
 
 ## midi to sheet
 https://github.com/BYVoid/MidiToSheetMusic
@@ -29,4 +31,4 @@ https://www.youtube.com/watch?v=nWGay8FGVLk
 
 use this as input:
 
-use audacity + neural note:
+extract to midi:
