@@ -20,6 +20,8 @@ https://github.com/noahbaculi/guitar-tab-generator/?tab=readme-ov-file
 
 https://noahbaculi.com/guitartab
 
+https://github.com/natecdr/tuttut/
+
 
 ## video(highly optional) 
 no current tool
