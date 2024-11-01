@@ -42,7 +42,7 @@ use tuttut to convert it into tab
 result: really weird, glitch, i guess it is because imperfection in midi or something,also tuttut is not build for complex stuff. Note: we also need to account for the speed the players play to compare representation
 
 ## problem
-dhqudw
-
+- tempo incorrect
+- wrong starting point
 
 
