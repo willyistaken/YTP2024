@@ -34,6 +34,6 @@ http://www.tofret.com/tablature-player.php
 - wrong starting point
 
 ## Training Resource (Easy)
-- Classic: [https://www.youtube.com/@deakteetranscriptions/videos](Youtube) / [https://www.patreon.com/collection/213952?view=expanded](Tabs) 
-- General: [https://www.youtube.com/@vvxoFingerstyleTab/videos](Youtube) / [https://www.vvxofingerstyletab.com/soundtrack-mobile-legends.html] (Tabs)
+- Classic: [Youtube](https://www.youtube.com/@deakteetranscriptions/videos) / [Tabs](https://www.patreon.com/collection/213952?view=expanded)
+- General: [Youtube](https://www.youtube.com/@vvxoFingerstyleTab/videos) / [Tabs](https://www.vvxofingerstyletab.com/soundtrack-mobile-legends.html)
 
