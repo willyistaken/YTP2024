@@ -36,4 +36,8 @@ http://www.tofret.com/tablature-player.php
 ## Training Resource (Easy)
 - Classic: [Youtube](https://www.youtube.com/@deakteetranscriptions/videos) / [Tabs](https://www.patreon.com/collection/213952?view=expanded)
 - General: [Youtube](https://www.youtube.com/@vvxoFingerstyleTab/videos) / [Tabs](https://www.vvxofingerstyletab.com/soundtrack-mobile-legends.html)
+- Dataset: [Github](https://github.com/marl/GuitarSet/tree/master?tab=readme-ov-file)
 
+## Related work
+- Paper: [GTT](https://arxiv.org/pdf/2309.09085)
+- CNN: [Not sure what's its aims](https://github.com/andywiggins/tab-cnn/tree/master)
