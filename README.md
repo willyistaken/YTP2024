@@ -10,7 +10,9 @@ https://github.com/DamRsn/NeuralNote
 
 https://basicpitch.spotify.com/
 
-the last 2 seems promising, they are the same project
+https://colab.research.google.com/github/magenta/mt3/blob/main/mt3/colab/music_transcription_with_transformers.ipynb
+
+the last 3 seems promising, they are the same project
 
 ## midi to sheet
 https://github.com/BYVoid/MidiToSheetMusic
@@ -41,3 +43,4 @@ http://www.tofret.com/tablature-player.php
 ## Related work
 - Paper: [GTT](https://arxiv.org/pdf/2309.09085)
 - CNN: [Not sure what's its aims](https://github.com/andywiggins/tab-cnn/tree/master)
+
