@@ -1,0 +1,16 @@
+--2025-01-26 17:58:27--  https://tabs.tabit.net/list.php?f=8043
+Resolving tabs.tabit.net (tabs.tabit.net)... 75.119.223.113
+Connecting to tabs.tabit.net (tabs.tabit.net)|75.119.223.113|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3185 (3.1K) [text/html]
+Saving to: ‘./testtbt/list.php?f=8043.tmp’
+
+     0K ...                                                   100% 41.0M=0s
+
+2025-01-26 17:58:28 (41.0 MB/s) - ‘./testtbt/list.php?f=8043.tmp’ saved [3185/3185]
+
+Removing ./testtbt/list.php?f=8043.tmp since it should be rejected.
+
+FINISHED --2025-01-26 17:58:28--
+Total wall clock time: 0.7s
+Downloaded: 1 files, 3.1K in 0s (41.0 MB/s)
