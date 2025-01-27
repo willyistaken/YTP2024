@@ -1,29 +1,50 @@
 
+datapath=./../tabsdata
+tbtpath=./../tbttmp
+if [ ! -d "$datapath" ]; then
+    mkdir $datapath
+fi
+if [ ! -d "$tbtpath" ]; then
+    mkdir $tbtpath
+fi
 
-for i in {8000..9000};do
-    wget -r -l 0 -A "*.tbt" --ignore-tags=nofollow -e robots=off -nd -P ./testtbt https://tabs.tabit.net/list.php?f=$i
-    for file in ./testtbt/*\ *; do 
+for i in {57..8000};do
+    echo downloading $i
+    wget -q -r -l 0 -A "*.tbt" --ignore-tags=nofollow -e robots=off -nd -P $tbtpath https://tabs.tabit.net/list.php?f=$i
+    if [ -z "$(ls $tbtpath)" ]; then
+        continue
+    fi
+    for file in $tbtpath/*\ *; do 
+        if [ ! -e "$file" ]; then
+            continue
+        fi
         mv "$file" "${file// /}"; 
     done
-    for file in ./testtbt/*\'*; do 
+    for file in $tbtpath/*\'*; do 
+        if [ ! -e "$file" ]; then
+            continue
+        fi
         mv "$file" "${file//\'/}"; 
     done
-    if [ -z "$(ls -A ./testtbt)" ]; then
-        continue 
-    fi
-    for file in "./testtbt/*.tbt"; do
-        echo $file "----------------------------------------------------------------------------"
-        ./tbtparse.sh $file
-        # python3 handletrack.py > tmp.txt
-        pref="$(basename "$file" .tbt)"
-        echo $pref
-        for res in track*;do
-            mv $res $pref$res
-        done
-        mv $pref*.txt ./data
-        mv $pref*.mid ./data
+    echo doing $i
+    for file in $tbtpath/*.tbt; do
+        if [ ! -e "$file" ]; then
+            continue
+        fi
+        echo $file
+        ./tbtparse.sh $file > /dev/null 2>&1
+        python3 handletrack.py
         rm out.txt
         rm out.mid
+        pref="$(basename $file .tbt)"
+        for res in track*;do
+            if [ ! -e "$res" ]; then
+                continue
+            fi
+            mv "${res}" "${pref}${res}"
+        done
+        mv "${pref}"*.txt $datapath 2>/dev/null
+        mv "${pref}"*.mid $datapath 2>/dev/null
     done
-    rm ./testtbt/*.tbt
+    rm $tbtpath/*
 done
