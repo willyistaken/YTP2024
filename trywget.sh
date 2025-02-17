@@ -8,7 +8,7 @@ if [ ! -d "$tbtpath" ]; then
     mkdir $tbtpath
 fi
 
-for i in {57..8000};do
+for i in {3671..3671};do
     echo downloading $i
     wget -q -r -l 0 -A "*.tbt" --ignore-tags=nofollow -e robots=off -nd -P $tbtpath https://tabs.tabit.net/list.php?f=$i
     if [ -z "$(ls $tbtpath)" ]; then
@@ -48,3 +48,5 @@ for i in {57..8000};do
     done
     rm $tbtpath/*
 done
+
+rmdir $tbtpath
