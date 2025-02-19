@@ -1,15 +1,6 @@
-import mido
-import copy
+my_list = [120, 120, 800, 200, 300]
 
-# 讀取多軌 MIDI 檔案
-multi_track_midi = mido.MidiFile("out.mid")
-print(multi_track_midi.type)
-
-cnt=0
-for track in multi_track_midi.tracks:
-    print(f'track{cnt}:-------------------')
-    cnt+=1
-    if cnt==1:
-        continue
-    for msg in track:
-        print(msg)
+for i in reversed(range(len(my_list))):
+    if my_list[i]>100:
+        del my_list[i]
+print(my_list)

@@ -1,0 +1,9 @@
+MetaMessage('track_name', name='tbt-parser MIDI - Track 0', time=0)
+MetaMessage('time_signature', numerator=4, denominator=4, clocks_per_click=24, notated_32nd_notes_per_beat=8, time=0)
+
+MetaMessage('set_tempo', tempo=500000, time=0)
+
+34 小節
+
+音量判斷
+節拍還算準

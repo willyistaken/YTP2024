@@ -23,10 +23,6 @@ no current tool
 ## playback tab:
 http://www.tofret.com/tablature-player.php
 
-## problem
-- tempo incorrect
-- wrong starting point
-
 ## Training Resource (Easy)
 - Dataset: [Github](https://github.com/marl/GuitarSet/tree/master?tab=readme-ov-file)
 - current: [tbt-it](https://tabs.tabit.net/)
@@ -44,5 +40,13 @@ http://www.tofret.com/tablature-player.php
 
 - [midi instruments](https://fmslogo.sourceforge.io/manual/midi-instrument.html)
 - [guitar note](https://metacpan.org/pod/MIDI::Chord::Guitar)
+- normal guitar at most 24 fret (40 ~ 88)
 - [mido message](https://mido.readthedocs.io/en/stable/messages/index.html)
+
+## problem
+- tempo incorrect
+- wrong starting point
+
+## Next to do
+- find tools auto gen info from midi, like start point, keys, chords
 
