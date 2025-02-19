@@ -25,7 +25,9 @@ for mid_file in "$folder"/*.mid; do
 
     python $2 $mid_file > temp.txt
 	if [[ $? -eq 0 ]]; then
+		echo 1 >> result.txt
 		./a.out "$txt_file" temp.txt >> result.txt
+		
 		if [[ $? -eq 0 ]]; then
 			:
 		else
@@ -34,6 +36,8 @@ for mid_file in "$folder"/*.mid; do
 	else
 		echo "$txt_file";
 	fi
+	echo 0 >> result.txt
+	python average.py < result.txt
 	
 done
 

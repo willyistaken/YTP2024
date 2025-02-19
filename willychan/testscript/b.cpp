@@ -175,14 +175,14 @@ int main(int argc, char* argv[]) {
 	int seg1, seg2, tot, ok, numOk, numCombOk, clear, okSeg, numOkSeg;
 	tabComp(tab1, tab2, seg1, seg2, tot, ok, numOk, numCombOk, clear, okSeg, numOkSeg);
 
+	/*
 	cout << "Comparison ended successfully\n";
 	cout << "File 1: " << seg1 << " bars\n";
 	cout << "File 2: " << seg2 << " bars\n";
-	cout << "Totally correct bar: " << okSeg << " / " << min(seg1, seg2) << '\n';
-	cout << "Partially correct bar: " << numOkSeg << " / " << min(seg1, seg2) << '\n';
-	cout << "Totally correct sound: " << ok << " / " << tot << " (clear: " << clear << ")\n";
-	cout << "Partially correct sound: " << numOk << " / " << tot << " (clear: " << clear << ")\n";
-	cout << "Combinational correct sound: " << numCombOk << " / " << tot << " (clear: " << clear << ")\n";
+	*/
+	cout << numOkSeg <<" "<< min(seg1, seg2) << '\n';
+	cout << numOk << " " << tot << " "<< clear;
+	cout << numCombOk << "  " << tot <<" "<< clear << ")\n";
 
 	return 0;
 }

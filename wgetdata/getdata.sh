@@ -8,7 +8,7 @@ if [ ! -d "$tbtpath" ]; then
     mkdir $tbtpath
 fi
 
-wget -q -r -l 0 -A "*.tbt" --ignore-tags=nofollow -e robots=off -nd -P $tbtpath "https://tabs.tabit.net/list.php?f=2&p=2"
+wget -q -r -l 0 -A "*.tbt" --ignore-tags=nofollow -e robots=off -nd -P $tbtpath "https://tabs.tabit.net/list.php?f=3681"
 if [ -z "$(ls $tbtpath)" ]; then
     continue
 fi
@@ -29,7 +29,7 @@ for file in $tbtpath/*.tbt; do
         continue
     fi
     echo $file
-    ./tbtparse.sh $file > /dev/null 2>&1
+    ./tbtparse.sh $file 
     python3 handletrack.py
     rm out.txt
     rm out.mid

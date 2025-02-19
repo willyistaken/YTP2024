@@ -8,9 +8,9 @@ if [ ! -d "$tbtpath" ]; then
     mkdir $tbtpath
 fi
 
-for i in {3671..3671};do
+for i in {2000..3000};do
     echo downloading $i
-    wget -q -r -l 0 -A "*.tbt" --ignore-tags=nofollow -e robots=off -nd -P $tbtpath https://tabs.tabit.net/list.php?f=$i
+    wget -q -r -l1 -A "*.tbt" --ignore-tags=nofollow -e robots=off -nd -P $tbtpath "https://tabs.tabit.net/list.php?f=$i"
     if [ -z "$(ls $tbtpath)" ]; then
         continue
     fi
