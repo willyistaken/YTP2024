@@ -71,7 +71,11 @@ int main(int argc, char* argv[]) {
 	vector<vector<int>> tab((int)V[0].size(), vector<int>((int)events.size(), -1));
 	for (int i = 0, lst = -1; i < (int)events.size(); ++i) {
 		if (events[i].empty()) continue;
-		assert(mp.count(events[i]));
+		// assert(mp.count(events[i]));
+		if (!mp.count(events[i])) {
+			lst = -1;
+			continue;
+		}
 		int b = -1;
 		if (lst != -1) {
 			int a = 0;
