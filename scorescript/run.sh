@@ -34,7 +34,7 @@ for mid_file in "$folder"/*.mid; do
 
 
 	#CHANGE HERE , whatever your program do here, just output it to temp.txt, $1 is your program(which is the argument this script take)
-	#python "$mid_file" >> temp.txt
+	#python "$mid_file" > temp.txt
 	cp "$mid_file" ~/code/YTP/tabsdata/algo/tuttut/midis/a.mid
     cd ~/code/YTP/tabsdata/algo/tuttut/
 	python midi_tabs_cli.py "a.mid" > /dev/null
@@ -68,5 +68,5 @@ for mid_file in "$folder"/*.mid; do
 done
 echo 0 >> result.txt
 
-python average.py < result.txt
+python3 average.py < result.txt
 
