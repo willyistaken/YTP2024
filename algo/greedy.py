@@ -87,7 +87,7 @@ def list_note_on_events(midi_file):
                 cur_time+=msg.time;
             if msg.type == 'note_on':
                 notes.append((note_std(msg.note),int(cur_time // tptt)));
-    tab = [[-1 for col in range(0,int(cur_time // tptt))] for row in range(0,6)];
+    tab = [[-1 for col in range(0,int(cur_time // tptt)+5)] for row in range(0,6)];
     for note in notes:
         f = 0;
         for (track,fret) in note2tab[note[0]]:

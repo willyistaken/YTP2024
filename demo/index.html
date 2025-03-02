@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Processor</title>
+    <style>
+        :root {
+            --primary: #4a6baf;
+            --primary-dark: #3a5a9f;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --background: #f9f9f9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--background);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            font-weight: normal;
+        }
+        
+        .upload-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .drop-area {
+            border: 2px dashed var(--primary);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .drop-area:hover, .drop-area.active {
+            background-color: rgba(74, 107, 175, 0.1);
+        }
+        
+        .drop-area p {
+            margin: 0;
+            color: var(--secondary);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .button:disabled {
+            background-color: var(--secondary);
+            cursor: not-allowed;
+        }
+        
+        .progress-container {
+            display: none;
+            margin-top: 1.5rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .status {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .result-section {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .result-title {
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .result-content {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 1rem;
+            white-space: pre;
+            max-height: 400px;
+            overflow-x: auto;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+        
+        .step-text {
+            flex: 1;
+        }
+        
+        .completed .step-number {
+            background-color: var(--success);
+        }
+        
+        .error-message {
+            color: var(--danger);
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .file-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Audio Processor</h1>
+            <p class="subtitle">Upload an MP3 file to convert it to formatted text</p>
+        </header>
+        
+        <div class="upload-section">
+            <div class="drop-area" id="dropArea">
+                <p id="dropAreaText">Drag & drop your MP3 file here or click to browse</p>
+            </div>
+            
+            <input type="file" id="fileInput" class="file-input" accept=".mp3">
+            <button id="processButton" class="button" disabled>Process Audio</button>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                <p class="status" id="statusText">Preparing...</p>
+                
+                <div class="processing-steps" id="processingSteps">
+                    <div class="step" id="step1">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Uploading MP3 file</div>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Converting MP3 to MIDI</div>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Processing MIDI to text</div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="error-message" id="errorMessage"></p>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <div class="result-header">
+                <h2 class="result-title">Processing Results</h2>
+                <button id="downloadButton" class="button">Download Text</button>
+            </div>
+            <div class="result-content" id="resultContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropArea = document.getElementById('dropArea');
+            const dropAreaText = document.getElementById('dropAreaText');
+            const fileInput = document.getElementById('fileInput');
+            const processButton = document.getElementById('processButton');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const statusText = document.getElementById('statusText');
+            const resultSection = document.getElementById('resultSection');
+            const resultContent = document.getElementById('resultContent');
+            const downloadButton = document.getElementById('downloadButton');
+            const errorMessage = document.getElementById('errorMessage');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            
+            // API endpoint (replace with your actual server URL)
+            const API_URL = 'http://localhost:5000';
+            
+            let selectedFile = null;
+            let currentJobId = null;
+            let originalFilename = null;
+            
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropArea.classList.remove('active');
+            }
+            
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length > 0 && files[0].type === 'audio/mpeg') {
+                    handleFiles(files);
+                } else {
+                    showError('Please upload an MP3 file.');
+                }
+            }
+            
+            dropArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    if (this.files[0].type === 'audio/mpeg') {
+                        handleFiles(this.files);
+                    } else {
+                        showError('Please upload an MP3 file.');
+                    }
+                }
+            });
+            
+            function handleFiles(files) {
+                selectedFile = files[0];
+                originalFilename = selectedFile.name;
+                processButton.disabled = false;
+                errorMessage.style.display = 'none';
+                statusText.textContent = `File selected: ${selectedFile.name}`;
+                
+                // Update the drop area text to show the file name
+                updateDropAreaWithFile(selectedFile);
+            }
+            
+            function updateDropAreaWithFile(file) {
+                // Create HTML for file info
+                const fileSize = formatFileSize(file.size);
+                dropAreaText.innerHTML = `
+                    <div class="file-info">
+                        <span class="file-icon">🎵</span>
+                        <div>
+                            <strong>${file.name}</strong><br>
+                            <small>${fileSize}</small>
+                        </div>
+                    </div>
+                `;
+                
+                // Add a subtle success background
+                dropArea.style.backgroundColor = 'rgba(40, 167, 69, 0.1)';
+                dropArea.style.borderColor = '#28a745';
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' bytes';
+                else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                else return (bytes / 1048576).toFixed(1) + ' MB';
+            }
+            
+            processButton.addEventListener('click', processAudio);
+            
+            function processAudio() {
+                if (!selectedFile) return;
+                
+                // Reset UI
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                resultSection.style.display = 'none';
+                errorMessage.style.display = 'none';
+                processButton.disabled = true;
+                
+                // Reset steps
+                step1.classList.remove('completed');
+                step2.classList.remove('completed');
+                step3.classList.remove('completed');
+                
+                // Step 1: Upload MP3
+                statusText.textContent = 'Uploading MP3 file...';
+                progressBar.style.width = '10%';
+                
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                
+                // Begin AJAX request to server
+                fetch(`${API_URL}/process`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.error || 'Server error');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Store the job ID
+                        currentJobId = data.job_id;
+                        
+                        // Update UI to show completion
+                        progressBar.style.width = '100%';
+                        step1.classList.add('completed');
+                        step2.classList.add('completed');
+                        step3.classList.add('completed');
+                        statusText.textContent = 'Processing complete!';
+                        
+                        // Display results
+                        resultContent.textContent = data.text_content;
+                        resultSection.style.display = 'block';
+                    } else {
+                        throw new Error(data.error || 'Unknown error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError(error.message || 'Failed to process audio file');
+                    progressContainer.style.display = 'none';
+                    processButton.disabled = false;
+                });
+            }
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                statusText.textContent = 'Error occurred';
+                
+                // Reset drop area to default state
+                dropAreaText.innerHTML = 'Drag & drop your MP3 file here or click to browse';
+                dropArea.style.backgroundColor = '';
+                dropArea.style.borderColor = '';
+            }
+            
+            downloadButton.addEventListener('click', function() {
+                if (currentJobId && originalFilename) {
+                    // Redirect to download endpoint
+                    window.location.href = `${API_URL}/download/${currentJobId}/${originalFilename}`;
+                    
+                    // Clean up server files after a delay
+                    setTimeout(() => {
+                        fetch(`${API_URL}/cleanup/${currentJobId}`, {
+                            method: 'POST'
+                        }).catch(err => console.error('Cleanup error:', err));
+                    }, 1000);
+                } else {
+                    // Fallback if no job ID is available
+                    const blob = new Blob([resultContent.textContent], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = originalFilename ? originalFilename.replace('.mp3', '.txt') : 'processed-audio.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 0);
+                }
+            });
+
+            // For demo/testing purposes
+            // Uncomment this to add a test function when backend is not available
+            /*
+            window.testWithoutBackend = function() {
+                // Simulate processing without a backend
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                resultSection.style.display = 'none';
+                errorMessage.style.display = 'none';
+                processButton.disabled = true;
+                
+                // Reset steps
+                step1.classList.remove('completed');
+                step2.classList.remove('completed');
+                step3.classList.remove('completed');
+                
+                // Simulate step 1: Upload MP3
+                statusText.textContent = 'Uploading MP3 file...';
+                progressBar.style.width = '10%';
+                
+                setTimeout(() => {
+                    // Simulate upload complete
+                    progressBar.style.width = '33%';
+                    step1.classList.add('completed');
+                    
+                    // Simulate step 2: Convert to MIDI
+                    statusText.textContent = 'Converting MP3 to MIDI...';
+                    
+                    setTimeout(() => {
+                        // Simulate conversion complete
+                        progressBar.style.width = '66%';
+                        step2.classList.add('completed');
+                        
+                        // Simulate step 3: Process MIDI to text
+                        statusText.textContent = 'Processing MIDI to text...';
+                        
+                        setTimeout(() => {
+                            // Simulate processing complete
+                            progressBar.style.width = '100%';
+                            step3.classList.add('completed');
+                            statusText.textContent = 'Processing complete!';
+                            
+                            // Display sample results
+                            const filename = selectedFile ? selectedFile.name : "sample.mp3";
+                            const sampleText = generateSampleOutput(filename);
+                            resultContent.textContent = sampleText;
+                            resultSection.style.display = 'block';
+                        }, 2000);
+                    }, 2500);
+                }, 1500);
+            }
+            
+            function generateSampleOutput(filename) {
+                return `# Audio Analysis Results for: ${filename}
+                
+Tempo: 120 BPM
+Time Signature: 4/4
+Key: C Major
+
+DETECTED NOTES:
+0:00 - C4 (Quarter note)
+0:01 - E4 (Quarter note)
+0:02 - G4 (Quarter note)
+0:03 - C5 (Quarter note)
+0:04 - G4 (Quarter note)
+0:05 - E4 (Quarter note)
+0:06 - C4 (Half note)
+
+INSTRUMENT DETECTION:
+- Piano: 78% confidence
+- Acoustic Guitar: 12% confidence
+- Synthesizer: 10% confidence
+
+HARMONIC ANALYSIS:
+Measure 1: C Major (I)
+Measure 2: G Major (V)
+Measure 3: C Major (I)
+
+MUSICAL STRUCTURE:
+- Introduction: 0:00 - 0:08
+- Verse: 0:08 - 0:24
+- Chorus: 0:24 - 0:40
+- Verse: 0:40 - 0:56
+- Chorus: 0:56 - 1:12
+- Outro: 1:12 - 1:20
+
+This analysis was generated automatically from the provided audio file.
+Processing completed on ${new Date().toLocaleString()}.`;
+            }
+            */
+        });
+    </script>
+</body>
+</html>
