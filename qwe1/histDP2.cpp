@@ -51,14 +51,16 @@ int main(int argc, char* argv[]) {
 	for (auto &[a, b] : notes)
 		inFile2 >> a >> b;
 
-	// vector<int> www;
-	// for (int i = 0; i < (int)W.size(); ++i)
+	//vector<int> www;
+	//for (int i = 0; i < (int)W.size(); ++i)
 	//	for (int j = 0; j < (int)W[j].size(); ++j)
 	//		if (W[i][j] > 0)
 	//			www.emplace_back(W[i][j]);
-	// sort(www.begin(), www.end());
+	//sort(www.begin(), www.end());
+	//for (int i = 1; i < 200; ++i)
+	//	cerr << www[(int)www.size() - i] << ' ';
 	// int thres = www[(int)size(www) / 2];
-	int thres = 1;
+	int thres = 1000;
 
 	vector<vector<int>> events(notes.back().second + 1, vector<int>(0));
 	for (auto &[a, b] : notes)

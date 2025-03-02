@@ -16,7 +16,7 @@ if __name__=="__main__":
 
     while(k==1):
         group+=1
-        print(group*4)
+        #print(group*4)
         line1 = input().split(' ');
         line2 = input().split(' ');
         line3 = input().split(' ');

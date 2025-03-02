@@ -98,6 +98,8 @@ void tabStd(vector<string> &tb, vector<vector<string>> &tbAr1, vector<vector<int
 template<typename T>
 void tbArComp(vector<T> tbAr1, vector<T> tbAr2, int &cnt, int &clearCnt) {
 	vector<int> dp((int)tbAr2.size() + 1, 0), cl = dp;
+	for (int i = 0; i <= (int)tbAr2.size(); ++i)
+		dp[i] = i;
 	for (int i = 0; i < (int)tbAr1.size(); ++i) {
 		auto nxt = dp, ncl = cl;
 		nxt[0] = i + 1;
@@ -108,16 +110,15 @@ void tbArComp(vector<T> tbAr1, vector<T> tbAr2, int &cnt, int &clearCnt) {
 					++ncl[j + 1];
 			}
 			else {
-				if (dp[j + 1] < nxt[j])
-					nxt[j + 1] = dp[j + 1] + 1, ncl[j + 1] = cl[j + 1];
-				else if (dp[j + 1] == nxt[j])
-					nxt[j + 1] = dp[j + 1] + 1, ncl[j + 1] = min(cl[j + 1], ncl[j]);
-				else nxt[j + 1] = nxt[j] + 1, ncl[j + 1] = ncl[j];
+				pair<int, int> p = {nxt[j], ncl[j]};
+				p = min(p, {dp[j], cl[j]});
+				p = min(p, {dp[j + 1], cl[j + 1]});
+				nxt[j + 1] = p.first + 1, ncl[j + 1] = p.second;
 			}
 		}
 		dp.swap(nxt), cl.swap(ncl);
 	}
-	cnt = max(tbAr1.size(), tbAr2.size()) - dp.back();
+	cnt = max((int)tbAr1.size(), (int)tbAr2.size()) - dp.back();
 	clearCnt = cl.back();
 }
 
@@ -160,7 +161,7 @@ int main(int argc, char* argv[]) {
 	tbArComp(tbAr11, tbAr21, ok, clear);
 	tbArComp(tbAr12, tbAr22, numOk, clear);
 	tbArComp(tbAr13, tbAr23, numCombOk, clear);
-	int tot = max(tbAr11.size(), tbAr21.size());
+	int tot = max((int)tbAr11.size(), (int)tbAr21.size());
 	/*
 	cout << "Comparison ended successfully\n";
 	cout << "File 1: " << seg1 << " bars\n";
