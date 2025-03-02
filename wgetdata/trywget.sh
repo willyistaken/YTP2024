@@ -32,7 +32,7 @@ for i in {2000..3000};do
             continue
         fi
         echo $file
-        ./tbtparse.sh $file > /dev/null 2>&1
+        ./tbtparse.sh $file > /dev/null
         python3 handletrack.py
         rm out.txt
         rm out.mid

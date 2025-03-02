@@ -42,11 +42,13 @@ http://www.tofret.com/tablature-player.php
 - [guitar note](https://metacpan.org/pod/MIDI::Chord::Guitar)
 - normal guitar at most 24 fret (40 ~ 88)
 - [mido message](https://mido.readthedocs.io/en/stable/messages/index.html)
+- fret length
+- [0, 36.35, 70.66, 103.05, 133.62, 162.47, 189.71, 215.41, 239.67, 262.58, 284.19, 304.59, 323.85, 342.03, 359.18, 375.38, 390.66, 405.09, 418.7, 431.56, 443.69, 455.14, 465.95, 476.15, 485.78]
 
 ## problem
 - tempo incorrect
 - wrong starting point
 
 ## Next to do
-- find tools auto gen info from midi, like start point, keys, chords
+- find tools auto gen info from midi, like start point, time signature
 

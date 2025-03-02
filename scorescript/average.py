@@ -11,7 +11,12 @@ if __name__=="__main__":
     ccomcnt=0;
     tcomcnt=0;
     k = int(input());
+
+    group=0
+
     while(k==1):
+        group+=1
+        print(group*4)
         line1 = input().split(' ');
         line2 = input().split(' ');
         line3 = input().split(' ');
@@ -24,7 +29,7 @@ if __name__=="__main__":
         tcomcnt += int(line3[1]);
         k = int(input());
     print("bar:" ,cbarcnt/tbarcnt);
-    print("sound:", csoundcnt/tsoundcnt,'/',(csoundcnt-clearcnt)/(tsoundcnt-clearcnt));
-    print("combine sound:", ccomcnt/tcomcnt,'/',(ccomcnt-clearcnt)/(tcomcnt-clearcnt));
+    print("tab:", csoundcnt/tsoundcnt,'/',(csoundcnt-clearcnt)/(tsoundcnt-clearcnt));
+    print("sound:", ccomcnt/tcomcnt,'/',(ccomcnt-clearcnt)/(tcomcnt-clearcnt));
 
 
