@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
 	//for (int i = 1; i < 200; ++i)
 	//	cerr << www[(int)www.size() - i] << ' ';
 	// int thres = www[(int)size(www) / 2];
-	int thres = 100;
+	int thres = 2;
 
 	vector<vector<int>> events(notes.back().second + 1, vector<int>(0));
 	for (auto &[a, b] : notes)

@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 
@@ -34,54 +33,45 @@ for mid_file in "$folder"/*.mid; do
     txt_file="${mid_file%.mid}.txt"
 
 
-	#CHANGE HERE , whatever your program do here, just output it to temp.txt, $1 is your program(which is the argument this script take)
-	#python "$mid_file" > temp.txt
-	cp "$mid_file" ~/code/YTP/tabsdata/algo/tuttut/midis/a.mid
-    cd ~/code/YTP/tabsdata/algo/tuttut/
-	python midi_tabs_cli.py "a.mid" > /dev/null
-	cp ~/code/YTP/tabsdata/algo/tuttut/tabs/a.txt ~/code/YTP2024/scorescript/temp.txt
-	cd ~/code/YTP2024/scorescript/.
-	python o1.py >> temp.txt	
-	
-<<<<<<< HEAD
-	# "$1" "$mid_file" > temp.txt
-=======
-	"$1" "$mid_file" > temp.txt
->>>>>>> 6e419d6005a3bc56873cdb71acca26852bfe3a07
-	#python3 "$1" "$mid_file" > temp.txt
+    #CHANGE HERE , whatever your program do here, just output it to temp.txt, $1 is your program(which is the argument this script take)
+    #python "$mid_file" > temp.txt
+    #cp "$mid_file" ~/code/YTP/tabsdata/algo/tuttut/midis/a.mid
+    #cd ~/code/YTP/tabsdata/algo/tuttut/
+    #python midi_tabs_cli.py "a.mid" > /dev/null
+    #cp ~/code/YTP/tabsdata/algo/tuttut/tabs/a.txt ~/code/YTP2024/scorescript/temp.txt
+    #cd ~/code/YTP2024/scorescript/.
+    #python o1.py > g.txt    
+    #cat g.txt > temp.txt
+    
+    "$1" "$mid_file" > temp.txt
+    #python3 "$1" "$mid_file" > temp.txt
 
-	
-	if [[ $? -eq 0 ]]; then
-		echo 1 >> result.txt
-		./a.out "$txt_file" temp.txt >> result.txt
-		# ./armb.out "$txt_file" temp.txt >> result.txt
-<<<<<<< HEAD
-		./a.out "$txt_file" temp.txt >> result.txt
-=======
-		#./armc.out "$txt_file" temp.txt >> result.txt
->>>>>>> 6e419d6005a3bc56873cdb71acca26852bfe3a07
-		
-		if [[ $? -eq 0 ]]; then
-			:
-		else
-			echo "$txt_file";
-		fi	
-	else
-		echo "$txt_file";
-	fi
-	((count++))
-	percentage=$((count * 100 / total))
+    
+    if [[ $? -eq 0 ]]; then
+        echo 1 >> result.txt
+        ./a.out "$txt_file" temp.txt >> result.txt
+        # ./armb.out "$txt_file" temp.txt >> result.txt
+        
+        if [[ $? -eq 0 ]]; then
+            :
+        else
+            echo "$txt_file";
+        fi    
+    else
+        echo "$txt_file";
+    fi
+    ((count++))
+    percentage=$((count * 100 / total))
 
-	printf "\rProgress: [%-50s] %d%% (%d/%d)" \
+    printf "\rProgress: [%-50s] %d%% (%d/%d)" \
         "$(printf '#%.0s' $(seq 1 $((percentage / 2))))" \
         "$percentage" "$count" "$total"
-	if [[ $count -ge $total ]];then
-		break;
-	fi
+    if [[ $count -ge $total ]];then
+        break;
+    fi
 done
 
 echo ""
 echo 0 >> result.txt
 
 python3 average.py < result.txt
-
