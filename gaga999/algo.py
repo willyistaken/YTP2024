@@ -17,6 +17,9 @@
 BASENOTE=[64,59,55,50,45,40]
 MAXLENTH=24
 note2tab = dict()
+occur=[]
+statfing=dict()
+trans=[]
 
 def init():
     for note in range(BASENOTE[-1],BASENOTE[0]+MAXLENTH+1):
@@ -25,7 +28,23 @@ def init():
             if BASENOTE[i]<=note and note <= BASENOTE[i]+MAXLENTH:
                 l.append((i,note-BASENOTE[i]))
         note2tab[note]=l
-    # stat
+    with open(os.path.dirname(os.path.abspath(__file__))+"/stat.txt", "r") as f:
+        n = int(f.readline())
+        global occur
+        occur = list(map(int, f.readline().split(' ')[0:n]))
+        assert(len(occur)==n)
+        f.readline()   # strings
+        for i in range(0,n):
+            statfing[tuple(map(int, f.readline().split(' ')[0:6]))]=i
+        for i in range(0,n):
+            tmp=f.readline().split(' ')
+            tmp=list(map(int,tmp[0:int(tmp[0])+1]))
+            trans.append(dict())
+            for j in range(1,tmp[0]+1):
+                if tmp[j] in trans[i]:
+                    trans[i][tmp[j]]+=1
+                else:
+                    trans[i][tmp[j]]=1
     return
 
 def outputtrack(tab_array):
@@ -75,6 +94,7 @@ def note_std(note):
 
 def notse2fing(notes,fing):
     if len(notes)==0:
+        assert(len(fing)==6)
         return [fing]
     res=[]
     for tr,pos in note2tab[notes[-1]]:
@@ -83,9 +103,14 @@ def notse2fing(notes,fing):
         res.extend(notse2fing(notes[0:-1],fing[0:tr]+(pos,)+fing[tr+1:len(fing)]))
     return res
 
-def fing2score(fing):
-
+def fingraw(fing):
+    
     return 10
+
+def fing2score(fing):
+    if fing in statfing:
+        return 1e9+fingraw(fing)+occur[statfing[fing]]
+    return fingraw(fing)
 
 def solve(file):
     midi=mido.MidiFile(file)
@@ -134,6 +159,7 @@ def solve(file):
     return tab
 
 import sys
+import os
 import mido
 
 if __name__ == "__main__":

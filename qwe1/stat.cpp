@@ -68,6 +68,8 @@ vector<vector<int>> G;
 const int mxDif = 4;
 
 void tabCalc(vector<string> &tb) {
+	if ((int)tb.size() != 7)
+		return;
 	for (int i = 2, cnt, lst = -1, dif = 0; i < (int)tb[0].size(); i += cnt) {
 		cnt = tb.back()[i] - '0';
 		if (tb[0][i] == '|')
