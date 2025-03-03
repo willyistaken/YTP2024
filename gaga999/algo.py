@@ -80,10 +80,12 @@ def notse2fing(notes,fing):
     for tr,pos in note2tab[notes[-1]]:
         if fing[tr]!=-1:
             continue;
-        fingcr=fing[:]
-        fingcr[tr]=pos
-        res.extend(notse2fing(notes[0:-1],fingcr))
+        res.extend(notse2fing(notes[0:-1],fing[0:tr]+(pos,)+fing[tr+1:len(fing)]))
     return res
+
+def fing2score(fing):
+
+    return 10
 
 def solve(file):
     midi=mido.MidiFile(file)
@@ -101,7 +103,7 @@ def solve(file):
             if msg.type=='time_signature':
                 time_sig = (msg.numerator,msg.denominator)
                 tpbar = tpb*time_sig[0];
-                tpt=tpb//16;
+                tpt=tpbar//16;
             if msg.type == "end_of_track":
                 eot = msg.time;
             if hasattr(msg,'time'):
@@ -113,13 +115,22 @@ def solve(file):
                 else :
                     notes_seq.append([note_std(msg.note)])
                     times.append(crt)
-    fings=[notse2fing(notes,[-1,-1,-1,-1,-1,-1]) for notes in notes_seq]
-    tab = [[-1 for col in range(0,round(cur_time / tpt))] for row in range(0,6)];
+    fings=[notse2fing(notes,(-1,-1,-1,-1,-1,-1)) for notes in notes_seq]
+    tab = [[-1 for col in range(0,round(cur_time / tpt)+1)] for row in range(0,6)];
     for t in range(len(fings)):
         assert(len(fings[t])>0)
+    dp=[[-1 for i in range(len(fings[t]))] for t in range(len(fings))] # max score sum or punishment 
+    fr=[[-1 for i in range(len(fings[t]))] for t in range(len(fings))]
     for t in range(0,len(times)):
-        for j in range(0,6):
-            tab[j][times[t]]=fings[t][0][j]
+        mxsc=-2e18
+        pos=-1
+        for i in range(len(fings[t])):
+            crsc=fing2score(fings[t][i])
+            if crsc>mxsc:
+                mxsc=crsc
+                pos=i
+        for i in range(0,6):
+            tab[i][times[t]]=fings[t][pos][i]
     return tab
 
 import sys

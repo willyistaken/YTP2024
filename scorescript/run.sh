@@ -49,7 +49,8 @@ for mid_file in "$folder"/*.mid; do
 	if [[ $? -eq 0 ]]; then
 		echo 1 >> result.txt
 		# ./a.out "$txt_file" temp.txt >> result.txt
-		./arma.out "$txt_file" temp.txt >> result.txt
+		# ./armb.out "$txt_file" temp.txt >> result.txt
+		./armc.out "$txt_file" temp.txt >> result.txt
 		
 		if [[ $? -eq 0 ]]; then
 			:

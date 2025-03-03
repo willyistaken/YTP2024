@@ -13,6 +13,7 @@
 
 # analyze wrong position
 # assert lib time % (tick_per_beat//4) !=0 tpb%4!=0
+# tablen+1 error
 
 BASENOTE=[64,59,55,50,45,40]
 MAXLENTH=24
@@ -75,15 +76,18 @@ def note_std(note):
 
 def notse2fing(notes,fing):
     if len(notes)==0:
-        return [fing]
+        return [fing[:]]
     res=[]
     for tr,pos in note2tab[notes[-1]]:
         if fing[tr]!=-1:
             continue;
-        fingcr=fing[:]
-        fingcr[tr]=pos
-        res.extend(notse2fing(notes[0:-1],fingcr))
+        fing[tr]=pos
+        res.extend(notse2fing(notes[0:-1],fing))
+        fing[tr]=-1
     return res
+
+def fing2score(fing):
+    return 10
 
 def solve(file):
     midi=mido.MidiFile(file)
@@ -101,7 +105,7 @@ def solve(file):
             if msg.type=='time_signature':
                 time_sig = (msg.numerator,msg.denominator)
                 tpbar = tpb*time_sig[0];
-                tpt=tpb//16;
+                tpt=tpbar//16;
             if msg.type == "end_of_track":
                 eot = msg.time;
             if hasattr(msg,'time'):
@@ -118,8 +122,15 @@ def solve(file):
     for t in range(len(fings)):
         assert(len(fings[t])>0)
     for t in range(0,len(times)):
-        for j in range(0,6):
-            tab[j][times[t]]=fings[t][0][j]
+        mxsc=-2e18
+        pos=-1
+        for i in range(len(fings[t])):
+            crsc=fing2score(fings[t][i])
+            if crsc>mxsc:
+                mxsc=crsc
+                pos=i
+        for i in range(0,6):
+            tab[i][times[t]]=fings[t][pos][i]
     return tab
 
 import sys

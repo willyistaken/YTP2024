@@ -12,11 +12,11 @@ if __name__=="__main__":
     tcomcnt=0;
     k = int(input());
 
-    group=0
+    # group=0
 
     while(k==1):
-        group+=1
-        print(group*4)
+        # group+=1
+        # print(group*4)
         line1 = input().split(' ');
         line2 = input().split(' ');
         line3 = input().split(' ');
