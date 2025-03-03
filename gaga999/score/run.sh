@@ -24,7 +24,7 @@ rm result.txt
 
 files=("$folder"/*.mid)
 total=${#files[@]} 
-total=1
+total=5
 echo "$total"
 count=0
 for mid_file in "$folder"/*.mid; do
@@ -44,9 +44,9 @@ for mid_file in "$folder"/*.mid; do
 	#python o1.py >> temp.txt	
 	
 	# "$1" "$mid_file" > temp.txt
+	
 	echo "$mid_file"
 	python3 "$1" "$mid_file" > temp.txt
-
 	
 	if [[ $? -eq 0 ]]; then
 		echo 1 >> result.txt
@@ -57,10 +57,10 @@ for mid_file in "$folder"/*.mid; do
 		if [[ $? -eq 0 ]]; then
 			:
 		else
-			echo "$txt_file";
+			echo "${txt_file} a.out error";
 		fi	
 	else
-		echo "$txt_file";
+		echo "${txt_file} python error";
 	fi
 	((count++))
 	percentage=$((count * 100 / total))

@@ -70,8 +70,9 @@ for mid_file in "$folder"/*.mid; do
 	if [[ $count -ge $total ]];then
 		break;
 	fi
-
 done
+
+echo ""
 echo 0 >> result.txt
 
 python3 average.py < result.txt

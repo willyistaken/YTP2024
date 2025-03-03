@@ -1,8 +1,6 @@
 # >= 3 or 4 fingers -> same string weight more / else distance weight more
 # left to right distance 
 # same fret with one finger (index or middle most) (*barre)
-# appeared fingering (move some fingers)
-# empty string don't count distance (can't in the mid of barre)
 
 # arrange finger for a set of fingering
 # hand distance and angle (mabey not)
@@ -13,7 +11,10 @@
 
 # analyze wrong position
 # assert lib time % (tick_per_beat//4) !=0 tpb%4!=0
+# less than 2 fing -> trans is important 
+# chords more space(0) is better
 
+FLENGTH=[0, 36.35, 70.66, 103.05, 133.62, 162.47, 189.71, 215.41, 239.67, 262.58, 284.19, 304.59, 323.85, 342.03, 359.18, 375.38, 390.66, 405.09, 418.7, 431.56, 443.69, 455.14, 465.95, 476.15, 485.78]
 BASENOTE=[64,59,55,50,45,40]
 MAXLENTH=24
 note2tab = dict()
@@ -87,14 +88,35 @@ def outputtrack(tab_array):
 
 def note_std(note):
     while note > BASENOTE[0]+MAXLENTH:
+        assert(0)
         note-=12;
     while note < BASENOTE[-1]:
+        assert(0)
         note+=12
     return note;
+
+def fingraw(fing):
+    valid_fingers = [f for f in fing if f > 0]
+    if not valid_fingers:
+        return 1e7
+    max_finger = max(valid_fingers)
+    min_finger = min(valid_fingers)
+    if FLENGTH[max_finger]-FLENGTH[min_finger]>FLENGTH[7]-FLENGTH[2]:
+        return -1e18
+    elif FLENGTH[max_finger]-FLENGTH[min_finger]>=FLENGTH[6]-FLENGTH[2]:
+        return 0
+    return 100
+
+def fing2score(fing):
+    if fing in statfing:
+        return 1e9+fingraw(fing)+occur[statfing[fing]]
+    return fingraw(fing)
 
 def notse2fing(notes,fing):
     if len(notes)==0:
         assert(len(fing)==6)
+        # if fingraw(fing)<-1e16:
+        #     return []
         return [fing]
     res=[]
     for tr,pos in note2tab[notes[-1]]:
@@ -102,15 +124,6 @@ def notse2fing(notes,fing):
             continue;
         res.extend(notse2fing(notes[0:-1],fing[0:tr]+(pos,)+fing[tr+1:len(fing)]))
     return res
-
-def fingraw(fing):
-    
-    return 10
-
-def fing2score(fing):
-    if fing in statfing:
-        return 1e9+fingraw(fing)+occur[statfing[fing]]
-    return fingraw(fing)
 
 def solve(file):
     midi=mido.MidiFile(file)
@@ -134,6 +147,7 @@ def solve(file):
             if hasattr(msg,'time'):
                 cur_time+=msg.time;
             if msg.type == 'note_on':
+                # print(msg,file=sys.stderr)
                 crt=round(cur_time / tpt)
                 if len(times)!=0 and times[-1]==crt:
                     notes_seq[-1].append(note_std(msg.note))
@@ -149,11 +163,16 @@ def solve(file):
     for t in range(0,len(times)):
         mxsc=-2e18
         pos=-1
+        assert(len(fings[t])>0)
         for i in range(len(fings[t])):
             crsc=fing2score(fings[t][i])
             if crsc>mxsc:
                 mxsc=crsc
                 pos=i
+        # if mxsc<1e9:
+        #     for fi in fings[t]:
+        #         print(fi,sys.stderr)
+        #     assert(0)
         for i in range(0,6):
             tab[i][times[t]]=fings[t][pos][i]
     return tab
