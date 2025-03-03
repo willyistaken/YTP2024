@@ -51,6 +51,10 @@ bool handleFile(ifstream &inFile, vector<string> &tab) {
         cerr << "First or last column in wrong format; ";
         return 0;
     }
+	for (auto &i : tab)
+		for (auto &j : i)
+			if (j == 'x')
+				j = '0';
     return 1;
 }
 

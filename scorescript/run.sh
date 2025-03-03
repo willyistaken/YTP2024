@@ -43,15 +43,15 @@ for mid_file in "$folder"/*.mid; do
 	#cd ~/code/YTP2024/scorescript/.
 	#python o1.py >> temp.txt	
 	
-	# "$1" "$mid_file" > temp.txt
-	python3 "$1" "$mid_file" > temp.txt
+	"$1" "$mid_file" > temp.txt
+	#python3 "$1" "$mid_file" > temp.txt
 
 	
 	if [[ $? -eq 0 ]]; then
 		echo 1 >> result.txt
-		# ./a.out "$txt_file" temp.txt >> result.txt
+		./a.out "$txt_file" temp.txt >> result.txt
 		# ./armb.out "$txt_file" temp.txt >> result.txt
-		./armc.out "$txt_file" temp.txt >> result.txt
+		#./armc.out "$txt_file" temp.txt >> result.txt
 		
 		if [[ $? -eq 0 ]]; then
 			:
