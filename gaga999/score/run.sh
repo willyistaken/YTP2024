@@ -24,7 +24,7 @@ rm result.txt
 
 files=("$folder"/*.mid)
 total=${#files[@]} 
-# total=10
+total=1
 echo "$total"
 count=0
 for mid_file in "$folder"/*.mid; do
@@ -44,14 +44,15 @@ for mid_file in "$folder"/*.mid; do
 	#python o1.py >> temp.txt	
 	
 	# "$1" "$mid_file" > temp.txt
+	echo "$mid_file"
 	python3 "$1" "$mid_file" > temp.txt
 
 	
 	if [[ $? -eq 0 ]]; then
 		echo 1 >> result.txt
 		# ./a.out "$txt_file" temp.txt >> result.txt
-		# ./armb.out "$txt_file" temp.txt >> result.txt
-		./armc.out "$txt_file" temp.txt >> result.txt
+		./armb.out "$txt_file" temp.txt >> result.txt
+		# ./armc.out "$txt_file" temp.txt >> result.txt
 		
 		if [[ $? -eq 0 ]]; then
 			:
@@ -70,8 +71,9 @@ for mid_file in "$folder"/*.mid; do
 	if [[ $count -ge $total ]];then
 		break;
 	fi
-
 done
+echo ""
+
 echo 0 >> result.txt
 
 python3 average.py < result.txt
