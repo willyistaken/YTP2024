@@ -109,7 +109,7 @@ def fingraw(fing):
     max_finger = max(valid_fingers)
     min_finger = min(valid_fingers)
     score=round(1000*valid_fingers.count(0) / len(valid_fingers)) #open
-    if FLENGTH[max_finger]-FLENGTH[min_finger]>FLENGTH[7]-FLENGTH[2]:
+    if FLENGTH[max_finger]-FLENGTH[min_finger]>=FLENGTH[7]-FLENGTH[2]:
         return -1e18
     # elif FLENGTH[max_finger]-FLENGTH[min_finger]>=FLENGTH[6]-FLENGTH[2]:
     #     return score
