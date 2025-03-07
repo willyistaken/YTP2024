@@ -7,5 +7,7 @@ basic-pitch . $mp3path
 midfile=$(basename $mp3path)
 midfile="${midfile::-4}""_basic_pitch.mid"
 
-mv $midfile $out_path_mid
+python3 fixmidi.py $midfile 3
+mv "${midfile::-4}""2.mid" $out_path_mid
+rm $midfile
 

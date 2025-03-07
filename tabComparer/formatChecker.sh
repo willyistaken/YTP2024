@@ -10,6 +10,11 @@ fi
 
 > "$ERROR_LOG"
 
+# find "$DIR" -type f -name "*.txt" | while read -r file; do
+# 	./a.out "$file" "$file" 2>> "$ERROR_LOG"
+# done
+
 find "$DIR" -type f -name "*.txt" | while read -r file; do
-	./a.out "$file" "$file" 2>> "$ERROR_LOG"
+	./armc.out "$file" "$file" 2>> "$ERROR_LOG"
 done
+

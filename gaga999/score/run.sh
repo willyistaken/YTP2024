@@ -24,7 +24,9 @@ rm result.txt
 
 files=("$folder"/*.mid)
 total=${#files[@]} 
-total=5
+if (($# >= 2)); then
+	total=$2
+fi
 echo "$total"
 count=0
 for mid_file in "$folder"/*.mid; do
@@ -45,14 +47,14 @@ for mid_file in "$folder"/*.mid; do
 	
 	# "$1" "$mid_file" > temp.txt
 	
-	echo "$mid_file"
+	# echo "$mid_file"
 	python3 "$1" "$mid_file" > temp.txt
 	
 	if [[ $? -eq 0 ]]; then
 		echo 1 >> result.txt
 		# ./a.out "$txt_file" temp.txt >> result.txt
-		./armb.out "$txt_file" temp.txt >> result.txt
-		# ./armc.out "$txt_file" temp.txt >> result.txt
+		# ./armb.out "$txt_file" temp.txt >> result.txt
+		./armc.out "$txt_file" temp.txt >> result.txt
 		
 		if [[ $? -eq 0 ]]; then
 			:

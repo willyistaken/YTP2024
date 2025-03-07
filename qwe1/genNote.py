@@ -71,6 +71,9 @@ def list_note_on_events(midi_file):
 	notes = [];
 	eot = 0;
 	cur_time = 0;
+	bpb=time_sig[0];
+	tpb = ppq*bpb;
+	tptt=tpb/16;
 	for i, track in enumerate(midi.tracks):
 	#	 print(f"Track {i}: {track.name}")
 		cur_time = 0

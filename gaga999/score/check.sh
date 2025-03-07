@@ -5,7 +5,7 @@
 
 echo 1 > result.txt
 # ./a.out "$txt_file" temp.txt >> result.txt
-./armb.out text.txt temp.txt >> result.txt
+./armc.out text.txt temp.txt >> result.txt
 # ./armc.out "$txt_file" temp.txt >> result.txt
     
 
